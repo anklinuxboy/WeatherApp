@@ -1,4 +1,4 @@
-const apiKey = 'YynPg8ucIprQnA11pqoLBcJmNUwZqgiY';
+const apiKey = 'Put your api key here';
 
 const getWeather = async (id) => {
     const baseUrl = 'http://dataservice.accuweather.com/currentconditions/v1/';
@@ -9,7 +9,7 @@ const getWeather = async (id) => {
         throw new Error(`Error fetching weather. Status: ${response.status}`);
     }
     const data = await response.json();
-    
+
     return data[0];
 }
 
