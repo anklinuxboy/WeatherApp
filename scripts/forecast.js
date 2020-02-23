@@ -1,27 +1,39 @@
-const apiKey = 'YynPg8ucIprQnA11pqoLBcJmNUwZqgiY';
-
-const getWeather = async (id) => {
-    const baseUrl = 'http://dataservice.accuweather.com/currentconditions/v1/';
-    const query = `${id}?apikey=${apiKey}`;
-
-    const response = await fetch(`${baseUrl}${query}`);
-    if (response.status !== 200) {
-        throw new Error(`Error fetching weather. Status: ${response.status}`);
+class Forecast {
+    constructor() {
+        this.apiKey = 'YynPg8ucIprQnA11pqoLBcJmNUwZqgiY';
+        this.cityURL = 'http://dataservice.accuweather.com/locations/v1/cities/search';
+        this.weatherURL = 'http://dataservice.accuweather.com/currentconditions/v1/';
     }
-    const data = await response.json();
-    return data[0];
-}
 
-const getCity = async (city) => {
-    const baseUrl = 'http://dataservice.accuweather.com/locations/v1/cities/search';
-    const query = `?apikey=${apiKey}&q=${city}`
-
-    const response = await fetch(`${baseUrl}${query}`);
-    if (response.status !== 200) {
-        throw new Error(`Error fetching city location. Status: ${response.status}`);
+    async getWeather(id) {
+        const query = `${id}?apikey=${this.apiKey}`;
+    
+        const response = await fetch(`${this.weatherURL}${query}`);
+        if (response.status !== 200) {
+            throw new Error(`Error fetching weather. Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data[0];
     }
-    const data = await response.json();
-    console.log(data);
+    
+    async getCity(city) {
+        const query = `?apikey=${this.apiKey}&q=${city}`
+    
+        const response = await fetch(`${this.cityURL}${query}`);
+        if (response.status !== 200) {
+            throw new Error(`Error fetching city location. Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data[0];
+    }
 
-    return data[0];
+    async updateCityDetails(city) {
+        const cityDetails = await this.getCity(city);
+        const weatherDetails = await this.getWeather(cityDetails.Key);
+    
+        return {
+            cityDetails,
+            weatherDetails
+        };
+    }
 }
