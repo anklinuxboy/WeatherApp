@@ -1,4 +1,4 @@
-const apiKey = 'Put your api key here';
+const apiKey = 'YynPg8ucIprQnA11pqoLBcJmNUwZqgiY';
 
 const getWeather = async (id) => {
     const baseUrl = 'http://dataservice.accuweather.com/currentconditions/v1/';
@@ -9,7 +9,6 @@ const getWeather = async (id) => {
         throw new Error(`Error fetching weather. Status: ${response.status}`);
     }
     const data = await response.json();
-
     return data[0];
 }
 
@@ -22,6 +21,7 @@ const getCity = async (city) => {
         throw new Error(`Error fetching city location. Status: ${response.status}`);
     }
     const data = await response.json();
+    console.log(data);
 
     return data[0];
 }
